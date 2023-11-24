@@ -1,17 +1,28 @@
-// src/App.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import SearchInput from './components/SearchInput';
 import LocationButton from './components/LocationButton';
+import WeatherButton from './components/WeatherButton';
 
 const App: React.FC = () => {
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [geoLocation, setGeoLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+
   const handleSearch = (city: string) => {
-    // Ваша логика для обработки поиска, например, вызов WeatherService
-    console.log(`Searching for weather in ${city}`);
+    setSelectedCity(city);
+    setGeoLocation(null);
   };
 
   const handleGetLocation = (latitude: number, longitude: number) => {
-    // Ваша логика для обработки полученной локации, например, вызов WeatherService
-    console.log(`Received location: ${latitude}, ${longitude}`);
+    setSelectedCity(null);
+    setGeoLocation({ latitude, longitude });
+  };
+
+  const handleGetWeather = () => {
+    if (selectedCity || geoLocation) {
+      console.log('Getting weather...');
+    } else {
+      console.log('Please enter a city or allow location access.');
+    }
   };
 
   return (
@@ -19,7 +30,7 @@ const App: React.FC = () => {
       <h1>Weather App</h1>
       <SearchInput onSearch={handleSearch} />
       <LocationButton onGetLocation={handleGetLocation} />
-      {/* Добавьте другие компоненты по мере необходимости */}
+      <WeatherButton onGetWeather={handleGetWeather} isGetLocation={!!geoLocation} />
     </div>
   );
 };
