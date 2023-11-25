@@ -2,6 +2,7 @@ import React from "react";
 
 interface WeatherInfoProps {
     weatherData: any;
+    isCurrentForecast: boolean;
 }
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ weatherData }) => { 

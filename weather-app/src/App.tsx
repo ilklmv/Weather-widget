@@ -31,21 +31,21 @@ const App: React.FC = () => {
 
       if (geoLocation) {
         if (isCurrentForecast) {
-          response = await WeatherService.getWeatherByGeoLocation(
+          response = await WeatherService.getCurrentWeatherByGeoLocation(
             geoLocation.latitude,
             geoLocation.longitude
           );
         } else {
-          response = await WeatherService.getWeatherByGeoLocation(
+          response = await WeatherService.getCurrentWeatherByGeoLocation(
             geoLocation.latitude,
             geoLocation.longitude
           );
         }
       } else if (selectedCity) {
         if (isCurrentForecast) {
-          response = await WeatherService.getWeatherByCity(selectedCity);
+          response = await WeatherService.getCurrentWeatherByCity(selectedCity);
         } else {
-          response = await WeatherService.getWeatherByCity(selectedCity);
+          response = await WeatherService.getCurrentWeatherByCity(selectedCity);
         }
       }
 
@@ -67,7 +67,7 @@ const App: React.FC = () => {
       <ForecastToggle onSelectForecast={handleSelectForecast} /> 
       <WeatherButton onGetWeather={handleGetWeather} isGetLocation={!!geoLocation} />
 
-      <WeatherInfo weatherData={weatherData} />
+      <WeatherInfo weatherData={weatherData} isCurrentForecast={false} />
     </div>
   );
 };
