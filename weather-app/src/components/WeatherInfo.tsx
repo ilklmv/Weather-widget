@@ -1,4 +1,5 @@
 import React from "react";
+import './WeatherInfo.css';
 
 interface WeatherInfoProps {
     weatherData: any;

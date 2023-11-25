@@ -14,7 +14,7 @@ const WeatherService = {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching current weather by city:', error);
+      console.error('Ошибка получения текущей погоды по городу:', error);
       throw error;
     }
   },
@@ -30,7 +30,7 @@ const WeatherService = {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching weather forecast by city:', error);
+      console.error('Ошибка получения текущей погоды по городу:', error);
       throw error;
     }
   },
@@ -47,7 +47,7 @@ const WeatherService = {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching current weather by geo location:', error);
+      console.error('Ошибка получения текущей погоды по местоположению:', error);
       throw error;
     }
   },
@@ -64,7 +64,7 @@ const WeatherService = {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching weather forecast by geo location:', error);
+      console.error('Ошибка получения текущей погоды по местоположению:', error);
       throw error;
     }
   },

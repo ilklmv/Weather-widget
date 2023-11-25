@@ -4,7 +4,6 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import App from '../src/App'
 
-//Mock WeatherSrevice
 jest.mock('../services/WeatherSrevice', () => ({
   getCurrentWeatherByCity: jest.fn(() => Promise.resolve ({})),
   getWeatherForecastByCity: jest.fn(() => Promise.resolve ({})),

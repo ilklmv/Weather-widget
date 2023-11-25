@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './LocationButton.css';
 
 interface LocationButtonProps {
   onGetLocation: (latitude: number, longitude: number) => void;

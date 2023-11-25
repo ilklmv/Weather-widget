@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import './SearchInput.css';
 
 interface SearchInputProps {
   onSearch: (city: string) => void;

@@ -1,38 +1,28 @@
-import React, { useState } from 'react';
-import SearchInput from './components/SearchInput';
-import LocationButton from './components/LocationButton';
-import WeatherButton from './components/WeatherButton';
+import React from 'react';
+import useWeather from '../hooks/useWeather';
+import './WeatherButton.css';
 
-const App: React.FC = () => {
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [geoLocation, setGeoLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+interface WeatherButtonProps {
+  onGetWeather: () => void;
+  isGeoLocation: boolean;
+}
 
-  const handleSearch = (city: string) => {
-    setSelectedCity(city);
-    setGeoLocation(null);
-  };
+const WeatherButton: React.FC<WeatherButtonProps> = ({ onGetWeather, isGeoLocation }) => {
+  const { getWeather } = useWeather();
 
-  const handleGetLocation = (latitude: number, longitude: number) => {
-    setSelectedCity(null);
-    setGeoLocation({ latitude, longitude });
-  };
-
-  const handleGetWeather = () => {
-    if (selectedCity || geoLocation) {
-      console.log('Getting weather...');
+  const handleClick = async () => {
+    if (isGeoLocation) {
+      await getWeather('');
     } else {
-      console.log('Please enter a city or allow location access.');
+      onGetWeather();
     }
   };
 
   return (
     <div>
-      <h1>Weather App</h1>
-      <SearchInput onSearch={handleSearch} />
-      <LocationButton onGetLocation={handleGetLocation} />
-      <WeatherButton onGetWeather={handleGetWeather} isGeoLocation={!!geoLocation} />
+      <button onClick={handleClick}>Get Weather</button>
     </div>
   );
 };
 
-export default App;
+export default WeatherButton;

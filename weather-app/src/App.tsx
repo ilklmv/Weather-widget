@@ -1,17 +1,18 @@
+// src/App.tsx
 import React, { useState } from 'react';
 import SearchInput from './components/SearchInput';
 import LocationButton from './components/LocationButton';
 import WeatherButton from './components/WeatherButton';
 import WeatherInfo from './components/WeatherInfo';
-import ForecastToggle from './components/ForecastToggle'; 
-
+import ForecastToggle from './components/ForecastToggle';
+import LocationService from './services/LocationService'; 
 import WeatherService from './services/WeatherService';
 
 const App: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [geoLocation, setGeoLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
-  const [isCurrentForecast, setIsCurrentForecast] = useState<boolean>(true); 
+  const [isCurrentForecast, setIsCurrentForecast] = useState<boolean>(true);
 
   const handleSearch = (city: string) => {
     setSelectedCity(city);
@@ -19,10 +20,15 @@ const App: React.FC = () => {
     setWeatherData(null);
   };
 
-  const handleGetLocation = (latitude: number, longitude: number) => {
-    setSelectedCity(null);
-    setGeoLocation({ latitude, longitude });
-    setWeatherData(null);
+  const handleGetLocation = async () => {
+    try {
+      const location = await LocationService.getCurrentLocation();
+      setSelectedCity(null);
+      setGeoLocation(location);
+      setWeatherData(null);
+    } catch (error) {
+      console.error('Error getting location:', error);
+    }
   };
 
   const handleGetWeather = async () => {
@@ -36,7 +42,7 @@ const App: React.FC = () => {
             geoLocation.longitude
           );
         } else {
-          response = await WeatherService.getCurrentWeatherByGeoLocation(
+          response = await WeatherService.getWeatherForecastByGeoLocation(
             geoLocation.latitude,
             geoLocation.longitude
           );
@@ -45,7 +51,7 @@ const App: React.FC = () => {
         if (isCurrentForecast) {
           response = await WeatherService.getCurrentWeatherByCity(selectedCity);
         } else {
-          response = await WeatherService.getCurrentWeatherByCity(selectedCity);
+          response = await WeatherService.getWeatherForecastByCity(selectedCity);
         }
       }
 
@@ -64,8 +70,8 @@ const App: React.FC = () => {
       <h1>Weather App</h1>
       <SearchInput onSearch={handleSearch} />
       <LocationButton onGetLocation={handleGetLocation} />
-      <ForecastToggle onSelectForecast={handleSelectForecast} /> 
-      <WeatherButton onGetWeather={handleGetWeather} isGetLocation={!!geoLocation} />
+      <ForecastToggle onSelectForecast={handleSelectForecast} />
+      <WeatherButton onGetWeather={handleGetWeather} isGeoLocation={!!geoLocation} />
 
       <WeatherInfo weatherData={weatherData} isCurrentForecast={false} />
     </div>

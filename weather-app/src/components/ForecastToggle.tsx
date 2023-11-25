@@ -1,4 +1,5 @@
 import React from "react";
+import './ForecastToogle.css';
 
 interface ForecastToogleProps {
     onSelectForecast: (isCurrent: boolean) => void;
